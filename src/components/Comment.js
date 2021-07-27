@@ -1,52 +1,58 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import CommentBox from "./CommentBox";
 import "./comment.css";
+import axios from "axios";
 
 function Comment() {
-  const [page, setPage] = useState(1);
   const [commentList, setCommentList] = useState([]);
-  const [addList, setAddList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [target, setTarget] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // 처음 랜더링
+  function hihi() {
+    setPage(page + 1);
+  }
+
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/comments?_page=1&_limit=10")
-      .then((res) => res.json())
-      .then((data) => {
-        setCommentList(data);
-      });
-  }, []);
-
-  // 옵저버 만들기
-  const fetchMoreTrigger = useRef(null);
-
-  // 옵저버 실행 후 state 변화 랜더링
-  useEffect(() => {
-    fetch(
-      `https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAddList(data);
-        setCommentList(commentList.concat(addList));
-      });
-    const fetchMoreObserver = new IntersectionObserver((isIntersecting) => {
-      if (!isIntersecting) {
-        setPage((page) => page + 1);
+    if (loading === true) {
+      hihi();
+    } else {
+      async function dataRs() {
+        const axiosData = await axios.get(
+          `https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`
+        );
+        const abab = commentList.concat(axiosData.data);
+        setCommentList(abab);
       }
-    });
+      dataRs();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
-    fetchMoreObserver.observe(fetchMoreTrigger.current);
-    return () => {
-      fetchMoreObserver.unobserve(fetchMoreTrigger.current);
-    };
-  }, [page, commentList, addList]);
+  useEffect(() => {
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(_onIntersect, { threshold: 0 });
+      observer.observe(target);
+    }
+
+    return () => observer && observer.disconnect();
+  }, [target]);
+
+  const _onIntersect = ([entry]) => {
+    if (entry.isIntersecting) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  };
 
   return (
     <div className="infinie_box">
       {commentList.map((el, idx) => {
         return <CommentBox commentList={el} key={idx} />;
       })}
-      <div ref={fetchMoreTrigger}></div>
+      <div ref={setTarget}></div>
     </div>
   );
 }
