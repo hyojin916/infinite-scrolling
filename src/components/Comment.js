@@ -46,7 +46,7 @@ function Comment() {
       {commentList.map((el, idx) => {
         return <CommentBox commentList={el} key={idx} />;
       })}
-      <div ref={fetchMoreTrigger}>ddd</div>
+      <div ref={fetchMoreTrigger}></div>
     </div>
   );
 }
