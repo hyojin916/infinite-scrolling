@@ -1,24 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-function CommentBox({ comment }) {
-  console.log(comment);
-  const id = comment.id;
-  const email = comment.email;
-  const comment_body = comment.body;
-
+function CommentBox({ comment, setPage }) {
   return (
     <div className="comment_box">
       <div className="comment_id">
         <div className="id_title">Comment</div>
-        <div className="id">{id}</div>
+        <div className="id">{comment.id}</div>
       </div>
       <div className="comment_email">
         <div className="email_title">Email</div>
-        <div className="email">{email}</div>
+        <div className="email">{comment.email}</div>
       </div>
       <div className="comment_main">
         <div className="comment_title">Comment</div>
-        <div className="comment_mseeage">{comment_body}</div>
+        <div className="comment_mseeage">{comment.body}</div>
       </div>
     </div>
   );
