@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+ul {
+  list-style:none;
+}
+
 body {
   font-size: 18px;
   display: flex;
@@ -15,7 +19,6 @@ body {
   padding: 20px;
   margin-bottom: 14px;
   width: 500px;
-  height: 193px;
   border-radius: 20px;
   background-color: #F8F9FA;
 }
