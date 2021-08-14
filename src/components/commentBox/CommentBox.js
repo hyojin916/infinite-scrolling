@@ -2,7 +2,7 @@ import React from "react";
 
 function CommentBox({ commentList }) {
   return (
-    <div className="comment_box">
+    <li className="comment_box">
       <div className="comment_id">
         <div className="id_title">Comment</div>
         <div className="id">{commentList.id}</div>
@@ -15,7 +15,7 @@ function CommentBox({ commentList }) {
         <div className="comment_title">Comment</div>
         <div className="comment_mseeage">{commentList.body}</div>
       </div>
-    </div>
+    </li>
   );
 }
 
